@@ -30,10 +30,10 @@
 #    Sarunas Koncius
 #
 # VERSION:
-# 	 0.7.8
+# 	 0.8.0
 #
 # MODIFIED:
-#	 2023-07-31
+#	 2023-09-13
 #
 #------------------------------------------------------------------------------------------------------------------
 
@@ -384,9 +384,8 @@ do {
             )
             $Sukurtos_paskyros = @()
             foreach ($Kuriama_paskyra in $Kuriamos_paskyros_CSV) {
-                If ($Kuriama_paskyra.MR_Pavardė_vardas.Contains(" ")) { $Pavarde = $Kuriama_paskyra.MR_Pavardė_vardas.Substring(0, $Kuriama_paskyra.MR_Pavardė_vardas.IndexOf(" ")) } else { $Pavarde = $Kuriama_paskyra.MR_Pavardė_vardas }
+                If ($Kuriama_paskyra.MR_Pavardė_vardas.Contains(" ")) { $Pavarde, $Vardas = ($Kuriama_paskyra.MR_Pavardė_vardas -split ' ')[0,1] } else { $Pavarde = $Kuriama_paskyra.MR_Pavardė_vardas}
                 $Pavarde = (Get-Culture).textinfo.totitlecase($Pavarde.ToLower())
-                If ($Kuriama_paskyra.MR_Pavardė_vardas.Contains(" ")) { $Vardas = $Kuriama_paskyra.MR_Pavardė_vardas.Substring($Kuriama_paskyra.MR_Pavardė_vardas.LastIndexOf(" ")+1,$Kuriama_paskyra.MR_Pavardė_vardas.Length-$Kuriama_paskyra.MR_Pavardė_vardas.LastIndexOf(" ")-1) } else { $Vardas = $Kuriama_paskyra.MR_Pavardė_vardas }
                 $Vardas = (Get-Culture).textinfo.totitlecase($Vardas.ToLower())
                 $RodomasVardas = $Vardas + " " + $Pavarde
                 $Klase = $Kuriama_paskyra.MR_Klasė + " klasė"
