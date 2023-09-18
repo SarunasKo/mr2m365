@@ -1,7 +1,7 @@
 # mr2m365
 PowerShell skriptas Microsoft 365 mokinių paskyrų kūrimui ir atnaujinimui pagal Mokinių registro informaciją.
 
-<img width="635" alt="image" src="https://github.com/SarunasKo/mr2m365/assets/51089218/2e2c58dc-b313-4c47-9a6c-9acc96195e96">
+<img width="636" alt="image" src="https://github.com/SarunasKo/mr2m365/assets/51089218/10c516ea-137e-40bf-87d3-c94ec9b5b4e6">
 
 ## Skripto naudojimo video (be garso): 
 https://vimeo.com/863811025
@@ -22,5 +22,6 @@ https://vimeo.com/863811025
 13. Įvykdyti septintąjį skripto žingsnį – atnaujinti mokinių paskyras Microsoft 365 aplinkoje.
 14. Įvykdyti aštuntąjį skripto žingsnį – nuskaityti grupių paskyras iš Microsoft 365 aplinkos ir išsaugoti CSV faile.
 15. Excel programoje peržiūrėti ir padaryti reikalingas korekcijas saugos grupių sąrašui.
-16. Įvykdyti devintąjį skripto žingsnį – atnaujinti saugos grupių paskyras Microsoft 365 aplinkoje.
-17. Užbaigti vykdyti skriptą.
+16. Įvykdyti devintąjį skripto žingsnį - nuskaityti pakoreguotą saugos grupių sąrašą.
+17. Įvykdyti dešimtąjį skripto žingsnį – atnaujinti saugos grupių paskyras Microsoft 365 aplinkoje.
+18. Užbaigti vykdyti skriptą.
