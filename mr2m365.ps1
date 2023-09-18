@@ -30,10 +30,10 @@
 #    Sarunas Koncius
 #
 # VERSION:
-# 	 0.8.0
+# 	 0.8.6
 #
 # MODIFIED:
-#	 2023-09-13
+#	 2023-09-19
 #
 #------------------------------------------------------------------------------------------------------------------
 
@@ -92,29 +92,35 @@ function Rodyti-meniu {
     Write-Host "-----------------------------------------------------------------------------------------"
     
     Write-Host "`n1: Prisijungti prie Microsoft Graph API                                     " -NoNewline
-    if ($Busena_MG.Length -eq 11) { Write-Host "  " -NoNewline }
-    Write-Host $Busena_MG -ForegroundColor DarkBlue -BackgroundColor White
+    Write-Host $Busena_MG -ForegroundColor DarkBlue -BackgroundColor White -NoNewline
+    Write-Host
     Write-Host "`n2: Nuskaityti iš Mokinių registro atsisiųstą besimokančių asmenų sąrašą     " -NoNewline
-    if ($Busena_MR.Length -eq 10) { Write-Host "  " -NoNewline }
-    Write-Host $Busena_MR -ForegroundColor DarkBlue -BackgroundColor White
+    Write-Host $Busena_MR -ForegroundColor DarkBlue -BackgroundColor White -NoNewline
+    Write-Host
     Write-Host "`n3: Nuskaityti mokinių paskyrų informaciją iš Microsoft 365 aplinkos         " -NoNewline
-    if ($Busena_M365.Length -eq 10) { Write-Host "  " -NoNewline }
-    Write-Host $Busena_M365 -ForegroundColor DarkBlue -BackgroundColor White
+    Write-Host $Busena_M365 -ForegroundColor DarkBlue -BackgroundColor White -NoNewline
+    Write-Host
     Write-Host "`n4: Suformuoti darbinį sąrašą iš visos turimos informacijos                  " -NoNewline
-    if ($Busena_DS.Length -eq 10) { Write-Host "  " -NoNewline }
-    Write-Host $Busena_DS -ForegroundColor DarkBlue -BackgroundColor White
+    Write-Host $Busena_DS -ForegroundColor DarkBlue -BackgroundColor White -NoNewline
+    Write-Host
     Write-Host "`n5: Patikrinimui išsaugoti darbinio sąrašo duomenis CSV faile                " -NoNewline
-    if ($Busena_CSV.Length -eq 9) { Write-Host "  " -NoNewline }
-    Write-Host $Busena_CSV -ForegroundColor DarkBlue -BackgroundColor White
+    Write-Host $Busena_CSV -ForegroundColor DarkBlue -BackgroundColor White -NoNewline
+    Write-Host
     Write-Host "`n6: Užkrauti pakoreguotą sąrašą iš CSV failo                                 " -NoNewline
-    if ($Busena_CSV_mokiniai.Length -eq 10) { Write-Host "  " -NoNewline }
-    Write-Host $Busena_CSV_mokiniai -ForegroundColor DarkBlue -BackgroundColor White
+    Write-Host $Busena_CSV_mokiniai -ForegroundColor DarkBlue -BackgroundColor White -NoNewline
+    Write-Host
     Write-Host "`n7: Atnaujinti mokinių paskyras Microsoft 365 aplinkoje                      " -NoNewline
-    Write-Host $Busena_mokiniai -ForegroundColor DarkBlue -BackgroundColor White
-#    Write-Host "`n8: Nuskaityti klasių saugos grupių informacija iš Microsoft 365 aplinkos    " -NoNewline
-#    Write-Host $Busena_CSV_klases -ForegroundColor DarkBlue -BackgroundColor White
-#    Write-Host "`n9: Atnaujinti klasių saugos grupių paskyras Microsoft 365 aplinkoje         " -NoNewline
-#    Write-Host $Busena_klases -ForegroundColor DarkBlue -BackgroundColor White
+    Write-Host $Busena_mokiniai -ForegroundColor DarkBlue -BackgroundColor White -NoNewline
+    Write-Host
+    Write-Host "`n8: Patikrinimui išsaugoti klasių grupių paskyrų duomenis į CSV failą        " -NoNewline
+    Write-Host $Busena_isaugota_CSV_klases -ForegroundColor DarkBlue -BackgroundColor White -NoNewline
+    Write-Host
+    Write-Host "`n9: Nuskaityti pakoreguotą klasių saugos grupių informaciją iš CSV failo     " -NoNewline
+    Write-Host $Busena_nuskaityta_CSV_klases -ForegroundColor DarkBlue -BackgroundColor White -NoNewline
+    Write-Host
+    Write-Host "`n10: Atnaujinti klasių saugos grupių paskyras Microsoft 365 aplinkoje        " -NoNewline
+    Write-Host $Busena_klases -ForegroundColor DarkBlue -BackgroundColor White -NoNewline
+    Write-Host
     Write-Host "`nQ: Baigti darbą"
     Write-Host "`n-----------------------------------------------------------------------------------------"
 }
@@ -154,6 +160,12 @@ $Pakoreguoto_saraso_failas = "pakoreguotas.csv"
 #
 $Sukurtu_paskyru_failas = "sukurtos_paskyros.csv"
 
+# 
+$Grupiu_saraso_failas = "grupes.csv"
+
+#
+$Pakoreguotas_grupiu_saraso_failas = "pakoreguotos_grupes.csv"
+
 
 #
 $Busena_MG = "Neprisijungta"
@@ -163,7 +175,8 @@ $Busena_DS = "Nesuformuota"
 $Busena_CSV = "Neišsaugota"
 $Busena_CSV_mokiniai = "Nenuskaityta"
 $Busena_mokiniai = "Neatnaujinta"
-$Busena_CSV_klases = "Nenuskaityta"
+$Busena_isaugota_CSV_klases = "Neišsaugota"
+$Busena_nuskaityta_CSV_klases = "Nenuskaityta"
 $Busena_klases = "Neatnaujinta"
 
 $MG_M365_aplinka = "?"
@@ -194,7 +207,7 @@ do {
 
             #
             Write-Host "Prisijungiama prie Microsoft Graph API..."
-            Connect-Graph -Scopes "Directory.ReadWrite.All", "User.ReadWrite.All","Group.ReadWrite.All"
+            Connect-Graph -Scopes "Directory.ReadWrite.All", "User.ReadWrite.All","Group.ReadWrite.All" -NoWelcome
             $MG_informacija = Get-MgContext
             $MG_M365_vartotojas = $MG_informacija.Account
             $MG_M365_aplinka = (Get-MgOrganization).DisplayName
@@ -411,7 +424,7 @@ do {
                     ForceChangePasswordNextSignIn = $false
                     Password = $Slaptazodis
                 }
-                New-MgUser -UserPrincipalName $VartotojoID -PasswordProfile $SlaptazodzioProfilis -AccountEnabled -UsageLocation "LT" -MailNickName $TrumpasisID -DisplayName $RodomasVardas -GivenName $Vardas -Surname $Pavarde -JobTitle $Pareigos -Department $Klase -EmployeeId $Kuriama_paskyra.'MR_Bylos Nr.' -OfficeLocation $Naujieji_mokslo_metai -CompanyName $MokyklosPavadinimas -City $MokyklosMiestas -Country "Lithuania" | Out-Null
+                New-MgUser -UserPrincipalName $VartotojoID -PasswordProfile $SlaptazodzioProfilis -AccountEnabled -UsageLocation "LT" -MailNickName $TrumpasisID -DisplayName $RodomasVardas -GivenName $Vardas -Surname $Pavarde -JobTitle $Pareigos -Department $Klase -EmployeeId $Kuriama_paskyra.'MR_Bylos Nr.' -OfficeLocation $Naujieji_mokslo_metai -CompanyName $MokyklosPavadinimas -City $MokyklosMiestas -Country "Lithuania"
                 Set-MgUserLicense -UserId $VartotojoID -AddLicenses $Licencijos -RemoveLicenses @()
                 $Sukurta_paskyra = New-Object PSObject
 	            Add-Member -InputObject $Sukurta_paskyra -MemberType NoteProperty -Name "Klasė" -Value $Klase
@@ -455,22 +468,119 @@ do {
             if ($Pakoreguoti_mokiniai_CSV.Count -ne 0) { $Busena_mokiniai = "Atnaujinta" } else { $Busena_mokiniai = "Neatnaujinta" }
 
 
-#        } '8' {
-#            Clear-Host
-#            Write-Host "Nuskaitoma klasių saugos grupių informacija iš Microsoft 365 aplinkos..."
-#
-#        
-#        } '9' {
-#            Clear-Host
-#            Write-Host "Atnaujinama klasių saugos grupių informacija Microsoft 365 aplinkoje..."
-#
-        } 
+        } '8' {
+            Clear-Host
+            Write-Host "Patikrinimui ir koregavimui išsaugomi klasių saugos grupių duomenis į CSV failą..."
 
+            if (-not (Get-ConnectionInformation)) { Connect-ExchangeOnline -UserPrincipalName $VisuotinioAdministratoriausSmtpAdresas -ShowBanner:$false }
+
+            $Visos_grupes_M365 = Get-DistributionGroup -ResultSize unlimited -Filter "RecipientTypeDetails -eq 'MailUniversalSecurityGroup'" |
+                Select-Object Guid, Identity, Id, Name, DisplayName, Alias, EmailAddresses, PrimarySmtpAddress, WindowsEmailAddress | Sort-Object Alias -Descending
+            $Visos_grupes_M365 | Export-Csv $Grupiu_saraso_failas -NoTypeInformation -Encoding UTF8 -Delimiter ";"
+
+            Write-Host "CSV faile ", $Grupiu_saraso_failas, " išsaugota įrašų: " $Visos_grupes_M365.Count
+            Write-Host "Patikrinimui ir koregavimui išsaugoti klasių saugos grupių duomenis CSV faile" $Grupiu_saraso_failas"."
+            if ((Get-ChildItem $Grupiu_saraso_failas).Length -ne 0) { $Busena_isaugota_CSV_klases = "Išsaugota" } else { $Busena_isaugota_CSV_klases = "Neišsaugota" }
+
+
+        } '9' {
+            Clear-Host
+            Write-Host "Nuskaitoma pakoreguota klasių saugos grupių informacija iš CSV failo..."
+
+            # Nuskaityti pakoreguotą klasės saugos grupių  informaciją iš CVS failo
+            $Pakoreguotos_grupes_M365 = Import-Csv $Pakoreguotas_grupiu_saraso_failas -Encoding UTF8 -Delimiter ";"
+            $Pakoreguotos_grupes_M365 | ft -Property Guid, DisplayName, Alias, PrimarySmtpAddress -AutoSize
+            Write-Host "Nuskaityta pakoreguota klasių saugos grupių informacija iš CSV failo."
+            $Busena_nuskaityta_CSV_klases = "Nuskaityta" 
+
+        
+        } '10' {
+            Clear-Host
+            Write-Host "Pradedamas klasių saugos grupių informacijos atnaujinimas Microsoft 365 aplinkoje..."
+
+            # Atnaujintą informaciją įrašyti į grupių paskyras, esančias Microsoft 365 aplinkoje
+            Write-Host "Atnaujinama klasių saugos grupių informacija Microsoft 365 aplinkoje..."
+            $Pakoreguotos_grupes_M365 |
+                foreach { Set-DistributionGroup -Identity $_.Guid -Name $_.Name -DisplayName $_.DisplayName -Alias $_.Alias -EmailAddresses $_.PrimarySmtpAddress -Description ($_.Name.Substring(5) + " ("+ $Naujieji_mokslo_metai + ")") -IgnoreNamingPolicy }
+            Write-Host "Atnaujinta klasių saugos grupių informacija Microsoft 365 aplinkoje."
+
+            #
+            Write-Host "Nuskaitomas klasių sąrašas iš pakoreguoto mokinių paskyrų CSV failo..."
+            $Pakoreguoti_mokiniai_CSV = Import-Csv $Pakoreguoto_saraso_failas -Encoding UTF8 -Delimiter ";"
+            $Klasiu_sarasas_MR = $Pakoreguoti_mokiniai_CSV | select MR_Klasė | Where-Object { $_.MR_Klasė.Length -gt 0 } | Sort-Object MR_Klasė -Unique
+            Write-Host "Nuskaitytas klasių sąrašas iš pakoreguoto mokinių paskyrų CSV failo."
+
+            Write-Host "Kuriamos naujos klasių saugos grupės Microsoft 365 aplinkoje..."
+            foreach ($Nauja_klase in $Klasiu_sarasas_MR) {
+                $Klases_pilnas_pavadinimas = "Visa " + $Nauja_klase.MR_Klasė + " klasė"
+                if ($Nauja_klase.MR_Klasė.IndexOf(" ") -ne -1) { $Klases_trumpas_pavadinimas = "visa." + $Nauja_klase.MR_Klasė.Substring(0, $Nauja_klase.MR_Klasė.IndexOf(" ")) } else { $Klases_trumpas_pavadinimas = "visa." + $Nauja_klase.MR_Klasė }
+                $Klases_SMTP_adresas = $Klases_trumpas_pavadinimas + "@" + $Domeno_vardas
+                if ( ((Get-DistributionGroup -Identity $Klases_SMTP_adresas -ErrorAction 'SilentlyContinue').IsValid) -eq $true ) {
+                    Continue
+                } else {
+                    New-DistributionGroup -Name $Klases_pilnas_pavadinimas -Type Security -DisplayName $Klases_pilnas_pavadinimas -Alias $Klases_trumpas_pavadinimas -PrimarySmtpAddress $Klases_SMTP_adresas -MemberJoinRestriction ApprovalRequired -Notes ($Klases_pilnas_pavadinimas.Substring(5) + " ("+ $Naujieji_mokslo_metai + ")")
+                    Set-DistributionGroup -Identity $Klases_SMTP_adresas -AcceptMessagesOnlyFrom $VisuotinioAdministratoriausSmtpAdresas -RequireSenderAuthenticationEnabled $false
+                    Set-DistributionGroup -Identity $Klases_SMTP_adresas -AcceptMessagesOnlyFromDLMembers $Klases_SMTP_adresas, $GrupesVisiMokytojaiSmtpAdresas
+                    Set-DistributionGroup -Identity $Klases_SMTP_adresas -AcceptMessagesOnlyFromSendersOrMembers $Klases_SMTP_adresas, $VisuotinioAdministratoriausSmtpAdresas, $GrupesVisiMokytojaiSmtpAdresas
+                }
+            }
+            Write-Host "Sukurtos naujos klasių saugos grupės Microsoft 365 aplinkoje."
+       
+            #
+            Write-Host "Nuskaitomos mokinių paskyros iš Microsoft 365 aplinkos..."
+            $Vartotojo_paskyros_laukai_M365 = @(
+                'AccountEnabled',
+                'AssignedLicenses',
+                'AssignedPlans',
+                'City',
+                'CompanyName',
+                'Country',
+                'Department',
+                'DisplayName',
+                'GivenName',
+                'Id',
+                'JobTitle',
+                'EmployeeId',
+                'EmployeeType',
+                'OfficeLocation',
+                'Surname',
+                'UserPrincipalName'
+            )
+            $GetMgUserKlaidos = 0
+            $Visi_mokiniai_M365 = Get-MgUser -Filter "assignedLicenses/any(x:x/skuId eq 314c4481-f395-4525-be8b-2ec4bb1e9d91)" -All -Property $Vartotojo_paskyros_laukai_M365 -ExpandProperty Manager -OrderBy Surname -ErrorVariable $GetMgUserKlaidos | Where-Object { $_.AccountEnabled -eq $true }
+            Write-Host "Nuskaitytos mokinių paskyros iš Microsoft 365 aplinkos:", $Visi_mokiniai_M365.Count
+
+            Write-Host "Nuskaitomos klasių saugos grupės iš Microsoft 365 aplinkos..."
+            $Visos_grupes_M365 = Get-DistributionGroup -ResultSize unlimited -Filter "RecipientTypeDetails -eq 'MailUniversalSecurityGroup'" |
+                Select-Object Guid, Identity, Id, Name, DisplayName, Alias, EmailAddresses, PrimarySmtpAddress, WindowsEmailAddress | Where-Object { $_.Name -match 'Visa \d\w klasė' -or $_.Name -match 'Visa \d\d\w klasė' } | Sort-Object Alias
+            Write-Host "Nuskaitytos klasių saugos grupės iš Microsoft 365 aplinkos."
+
+            Write-Host "Atnaujinami klasių saugos grupių narių sąrašai Microsoft 365 aplinkoje..."
+            $Visos_klases_M365 = $Visi_mokiniai_M365 | select Department | Where-Object { $_.Department -match '\d\w klasė' -or $_.Department -match '\d\d\w klasė' } | Sort-Object Department -Unique
+            foreach ($Klase_M365 in $Visos_klases_M365) {
+                Write-Host $Klase_M365.Department
+                $Paieskos_tekstas = "*" + $Klase_M365.Department + "*" 
+                $Grupe_M365 = $Visos_grupes_M365 | Where-Object { $_.Name -like $Paieskos_tekstas }
+                if ($null -ne $Grupe_M365) {
+                    $Klases_mokiniai_M365 = $Visi_mokiniai_M365 | Where-Object { $_.Department -eq $Klase_M365.Department } | Select UserPrincipalName
+                    Update-DistributionGroupMember -Identity $Grupe_M365.PrimarySmtpAddress -Members $VisuotinioAdministratoriausSmtpAdresas -Confirm:$false -BypassSecurityGroupManagerCheck
+                    $Klases_mokiniai_M365 | foreach { Add-DistributionGroupMember -Identity $Grupe_M365.PrimarySmtpAddress -Member $_.UserPrincipalName -Confirm:$false -BypassSecurityGroupManagerCheck }
+                    Remove-DistributionGroupMember -Identity $Grupe_M365.PrimarySmtpAddress -Member $VisuotinioAdministratoriausSmtpAdresas -Confirm:$false -BypassSecurityGroupManagerCheck
+                }
+            }
+            Write-Host "Atnaujti klasių saugos grupių narių sąrašai Microsoft 365 aplinkoje."
+
+            Write-Host "Baigtas klasių saugos grupių informacijos atnaujinimas Microsoft 365 aplinkoje."
+            $Busena_klases = "Atnaujinta"
+
+        }
 
     }
     Write-Host
     pause
  }
  until ($Pasirinkimas -eq 'q')
- Disconnect-MgGraph
+
+Disconnect-ExchangeOnline -Confirm:$false
+Disconnect-MgGraph
 
