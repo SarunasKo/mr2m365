@@ -30,10 +30,10 @@
 #    Sarunas Koncius
 #
 # VERSION:
-# 	 0.8.6
+# 	 0.8.7
 #
 # MODIFIED:
-#	 2023-09-19
+#	 2025-09-22
 #
 #------------------------------------------------------------------------------------------------------------------
 
@@ -109,7 +109,7 @@ function Rodyti-meniu {
     Write-Host "`n6: Užkrauti pakoreguotą sąrašą iš CSV failo                                 " -NoNewline
     Write-Host $Busena_CSV_mokiniai -ForegroundColor DarkBlue -BackgroundColor White -NoNewline
     Write-Host
-    Write-Host "`n7: Atnaujinti mokinių paskyras Microsoft 365 aplinkoje                      " -NoNewline
+    Write-Host "`n7: Tvarkyti mokinių paskyras Microsoft 365 aplinkoje                      " -NoNewline
     Write-Host $Busena_mokiniai -ForegroundColor DarkBlue -BackgroundColor White -NoNewline
     Write-Host
     Write-Host "`n8: Patikrinimui išsaugoti klasių grupių paskyrų duomenis į CSV failą        " -NoNewline
@@ -118,7 +118,7 @@ function Rodyti-meniu {
     Write-Host "`n9: Nuskaityti pakoreguotą klasių saugos grupių informaciją iš CSV failo     " -NoNewline
     Write-Host $Busena_nuskaityta_CSV_klases -ForegroundColor DarkBlue -BackgroundColor White -NoNewline
     Write-Host
-    Write-Host "`n10: Atnaujinti klasių saugos grupių paskyras Microsoft 365 aplinkoje        " -NoNewline
+    Write-Host "`n10: Tvarkyti klasių saugos grupių paskyras Microsoft 365 aplinkoje        " -NoNewline
     Write-Host $Busena_klases -ForegroundColor DarkBlue -BackgroundColor White -NoNewline
     Write-Host
     Write-Host "`nQ: Baigti darbą"
@@ -583,4 +583,5 @@ do {
 
 Disconnect-ExchangeOnline -Confirm:$false
 Disconnect-MgGraph
+
 
