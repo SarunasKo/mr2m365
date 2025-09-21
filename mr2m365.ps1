@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# Copyright (c) 2023 Sarunas Koncius
+# Copyright (c) 2023-2025 Sarunas Koncius
 #
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
@@ -583,5 +583,6 @@ do {
 
 Disconnect-ExchangeOnline -Confirm:$false
 Disconnect-MgGraph
+
 
 
