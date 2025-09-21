@@ -25,3 +25,6 @@ https://vimeo.com/863811025
 16. Įvykdyti devintąjį skripto žingsnį - nuskaityti pakoreguotą saugos grupių sąrašą.
 17. Įvykdyti dešimtąjį skripto žingsnį – atnaujinti saugos grupių paskyras Microsoft 365 aplinkoje.
 18. Užbaigti vykdyti skriptą.
+
+---
+[![PSScriptAnalyzer](https://github.com/SarunasKo/mr2m365/actions/workflows/powershell.yml/badge.svg)](https://github.com/SarunasKo/mr2m365/actions/workflows/powershell.yml)
