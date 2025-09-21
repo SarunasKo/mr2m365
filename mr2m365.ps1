@@ -109,7 +109,7 @@ function Rodyti-meniu {
     Write-Host "`n6: Užkrauti pakoreguotą sąrašą iš CSV failo                                 " -NoNewline
     Write-Host $Busena_CSV_mokiniai -ForegroundColor DarkBlue -BackgroundColor White -NoNewline
     Write-Host
-    Write-Host "`n7: Tvarkyti mokinių paskyras Microsoft 365 aplinkoje                      " -NoNewline
+    Write-Host "`n7: Tvarkyti mokinių paskyras Microsoft 365 aplinkoje                        " -NoNewline
     Write-Host $Busena_mokiniai -ForegroundColor DarkBlue -BackgroundColor White -NoNewline
     Write-Host
     Write-Host "`n8: Patikrinimui išsaugoti klasių grupių paskyrų duomenis į CSV failą        " -NoNewline
@@ -118,7 +118,7 @@ function Rodyti-meniu {
     Write-Host "`n9: Nuskaityti pakoreguotą klasių saugos grupių informaciją iš CSV failo     " -NoNewline
     Write-Host $Busena_nuskaityta_CSV_klases -ForegroundColor DarkBlue -BackgroundColor White -NoNewline
     Write-Host
-    Write-Host "`n10: Tvarkyti klasių saugos grupių paskyras Microsoft 365 aplinkoje        " -NoNewline
+    Write-Host "`n10: Tvarkyti klasių saugos grupių paskyras Microsoft 365 aplinkoje          " -NoNewline
     Write-Host $Busena_klases -ForegroundColor DarkBlue -BackgroundColor White -NoNewline
     Write-Host
     Write-Host "`nQ: Baigti darbą"
@@ -143,28 +143,28 @@ $VisuotinioAdministratoriausSmtpAdresas = "o365.administratorius@eportfelis.net"
 $GrupesVisiMokytojaiSmtpAdresas = "visi.mokytojai@eportfelis.net"
 
 # Ankstesnieji mokslo metai
-$Ankstesnieji_mokslo_metai = "2022-2023"
+$Ankstesnieji_mokslo_metai = "2024-2025"
 
 # Naujieji mokslo metai
-$Naujieji_mokslo_metai = "2023-2024"
+$Naujieji_mokslo_metai = "2025-2026"
 
 # 
 $Mokiniu_saraso_failas_MR = "besimokantys.csv"
 
 # 
-$Darbinio_saraso_failas = "darbinis.csv"
+$Darbinio_saraso_failas = "paskyros_darbinis.csv"
 
 # 
-$Pakoreguoto_saraso_failas = "pakoreguotas.csv"
+$Pakoreguoto_saraso_failas = "paskyros_pakoreguotas.csv"
 
 #
-$Sukurtu_paskyru_failas = "sukurtos_paskyros.csv"
+$Sukurtu_paskyru_failas = "paskyros_sukurtos.csv"
 
 # 
-$Grupiu_saraso_failas = "grupes.csv"
+$Grupiu_saraso_failas = "grupes_darbinis.csv"
 
 #
-$Pakoreguotas_grupiu_saraso_failas = "pakoreguotos_grupes.csv"
+$Pakoreguotas_grupiu_saraso_failas = "grupes_pakoreguotas.csv"
 
 
 #
@@ -583,6 +583,7 @@ do {
 
 Disconnect-ExchangeOnline -Confirm:$false
 Disconnect-MgGraph
+
 
 
 
